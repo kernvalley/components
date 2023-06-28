@@ -13,5 +13,3 @@ importmap.yaml
 *.config.js
 *.tgz
 *.log
-*.min.*
-*.map
