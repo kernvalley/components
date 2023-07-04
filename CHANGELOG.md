@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.0] - 20023-07-003
+
+### Changed
+- Update to node 20
+- Update GH Action for npm publish
+
 ## [v1.0.2] - 2023-06-28
 
 ### Fixed
