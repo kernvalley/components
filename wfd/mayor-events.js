@@ -2,12 +2,11 @@ import { getJSON } from '@shgysk8zer0/kazoo/http.js';
 import { createElement, createSlot } from '@shgysk8zer0/kazoo/elements.js';
 import { light, dark } from '@shgysk8zer0/jss/palette/gnome.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
+import { getString, setString } from '@shgysk8zer0/kazoo/attrs.js';
 import {
 	createCalendarIcon, createLinkExternalIcon, createMarkLocationIcon,
 	createPersonIcon,
 } from '@shgysk8zer0/kazoo/icons.js';
-
-const STORAGE_KEY = 'wfd-mayor-events';
 
 const DATETIME_FORMAT = {
 	year: 'numeric',
@@ -188,23 +187,14 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 		const children = events
 			.map(({ startDate, ...event }) => ({ ...event, startDate: new Date(startDate) }))
 			.filter(({ startDate }) => startDate.getTime() > now)
-			.map(({ name, description, startDate, performer, location, url }, i) => {
+			.map(({ name, description, startDate, performer, location, url }) => {
 				const start = new Date(startDate);
 				const mayorSlug = slugify(performer.name);
 				const event = createElement('div', {
 					'@type': 'Event',
 					part: ['event', `${mayorSlug}-event`],
-					classList: ['event-container', mayorSlug],
+					classList: ['event-container', `${mayorSlug}-event`],
 					dataset: { mayor: performer.name },
-					animation: {
-						keyframes: [
-							{ opacity: 0, transform: 'scale(0)' },
-							{ opacity: 1, transform: 'none' },
-						],
-						easing: 'ease-out',
-						duration: 400,
-						delay: 120 * i,
-					},
 					children: [
 						createElement('a', {
 							href: url,
@@ -350,15 +340,11 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 	}
 
 	get mayor() {
-		return this.getAttribute('mayor');
+		return getString(this, 'mayor');
 	}
 
 	set mayor(val) {
-		if (isString(val)) {
-			this.setAttribute('mayor', val);
-		} else {
-			this.removeAttribute('mayor');
-		}
+		setString(this, 'mayor', val);
 	}
 
 	get showAddress() {
@@ -378,31 +364,25 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 	}
 
 	get theme() {
-		return this.getAttribute('theme') ?? 'auto';
+		return getString(this, 'theme', { fallback: 'auto' });
 	}
 
 	set theme(val) {
-		if (isString(val)) {
-			this.setAttribute('theme', val);
-		} else {
-			this.removeAttribute('theme');
-		}
+		setString(this, 'theme', val);
 	}
 
 	static async getEvents({ mayor, signal } = {}) {
 		if (signal instanceof AbortSignal && signal.aborted) {
 			return Promise.reject(signal.reason);
-		} else if (sessionStorage.hasOwnProperty(STORAGE_KEY)) {
-			const events = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
-			return isString(mayor)
-				? events.filter(event => slugify(event.performer.name) === mayor)
-				: events;
 		} else {
-			const events = await getJSON('https://whiskeyflatdays.com/mayors/events.json');
-			sessionStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-			return isString(mayor)
-				? events.filter(event => slugify(event.performer.name) === mayor)
-				: events;
+			const events = await getJSON('https://whiskeyflatdays.com/mayors/events.json', { signal });
+
+			if (isString(mayor)) {
+				const mayorSlug = slugify(mayor);
+				return events.filter(event => slugify(event.performer.name) === mayorSlug);
+			} else {
+				return events;
+			}
 		}
 	}
 
