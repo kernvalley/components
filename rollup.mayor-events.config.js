@@ -7,7 +7,7 @@ import { readJSONFile } from '@shgysk8zer0/npm-utils/json';
 const { name, version } = await readJSONFile('./package.json');
 const url = new URL(`./${name}@${version}/`, 'https://unpkg.com').href;
 
-export default getConfig('./events.js', {
+export default getConfig('./wfd/mayor-events.js', {
 	plugins: [
 		rollupImport('./importmap.json'),
 		rollupImportMeta({ baseURL: url }),

@@ -6,7 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v1.1.0] - 20023-07-003
+## [v1.1.1] - 2024-01-20
+
+### Added
+- Create `<wfd-mayor-events>`
+- Add own version of `importmap.json`
+
+### Changed
+- Misc CSP & TrustedTypes updates
+
+### Removed
+- Remove local installation of certain packages to use `unpkg.com/@shgysk8zer0/` instead
+
+## [v1.1.0] - 2023-07-03
 
 ### Changed
 - Update to node 20
