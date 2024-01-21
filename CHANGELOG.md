@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.3] - 2024-01-21
+
+### Added
+- Add UTM params to `<wfd-mayor-events>` link + add `source` attribute
+
+### Changed
+- Use `CSSStyleSheet().replace()` for `<wfd-events>` styles
+- Use Gnome palette colors for `<wfd-events>` colors
+- Use `Intl.DateTimeFormat()` to format `<wfd-events>` start/end datetimes
+- WIP (just comments) on creating `<wfd-events>` template via `createHTML()`
+- Update `<wfd-mayor-events>` style/layout (center events)
+
 ## [v1.1.2] - 2024-01-20
 
 ### Fixed
