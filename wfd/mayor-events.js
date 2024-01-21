@@ -2,6 +2,7 @@ import { getJSON } from '@shgysk8zer0/kazoo/http.js';
 import { createElement, createSlot } from '@shgysk8zer0/kazoo/elements.js';
 import { light, dark } from '@shgysk8zer0/jss/palette/gnome.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
+import { setUTMParams } from '@shgysk8zer0/kazoo/utility.js';
 import { getString, setString } from '@shgysk8zer0/kazoo/attrs.js';
 import {
 	createCalendarIcon, createLinkExternalIcon, createMarkLocationIcon,
@@ -20,6 +21,8 @@ const DATETIME_FORMAT = {
 const STYLES = `
 	:host {
 		display: block;
+		border-radius: 8px;
+		padding: 0.6em;
 		line-height: 1.5;
 		font-family: system-ui;
 		color-scheme: light dark;
@@ -59,6 +62,7 @@ const STYLES = `
 		margin-top: 1.2em;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(380px, 430px));
+		justify-content: center;
 		gap: 13px;
 	}
 
@@ -121,9 +125,17 @@ const DARK_STYLES = `
 	}
 `;
 
+const WFD = 'https://whiskeyflatdays.com/';
+const medium = 'referral';
+const content = 'wfd-mayor-events';
+
 const slugify = str => str.toString().toLowerCase().replaceAll(/\W+/g, '-');
 
 const isString = thing => typeof thing === 'string' && thing.length !== 0;
+
+function getWFDLink(path, params) {
+	return setUTMParams(new URL(path, WFD), params);
+}
 
 customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLElement {
 	#internals;
@@ -138,7 +150,7 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 		this.#shadow.append(
 			createElement('header', {
 				part: ['header', 'text'],
-				classList: ['header'],
+				classList: ['header', 'title'],
 				children: [
 					createElement('div', {
 						part: ['heading'],
@@ -181,6 +193,8 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 			await whenIntersecting(this);
 		}
 
+		const utm = { source: this.source, medium, content };
+
 		const events = await HTMLWFDMayorEvents.getEvents({ mayor: this.mayor, signal });
 		const formatter = new Intl.DateTimeFormat(navigator.language, DATETIME_FORMAT);
 		const now = Date.now();
@@ -197,7 +211,7 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 					dataset: { mayor: performer.name },
 					children: [
 						createElement('a', {
-							href: url,
+							href: getWFDLink(url, utm),
 							itemprop: 'url',
 							target: '_blank',
 							ariaLabel: `Open ${name} in new tab.`,
@@ -216,7 +230,7 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 										}),
 										createElement('span', {
 											itemprop: 'name',
-											part: ['text'],
+											part: ['text', 'title'],
 											text: name,
 										}),
 									],
@@ -235,7 +249,7 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 										}),
 										createElement('span', {
 											itemprop: 'name',
-											part: ['text'],
+											part: ['text', 'mayor-name'],
 											text: performer.name,
 										}),
 									]
@@ -282,7 +296,7 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 										createElement('span', {
 											itemprop: 'name',
 											text: location.name,
-											part: ['event-location-name', 'text'],
+											part: ['event-location-name', 'text', 'title'],
 											hidden: ! isString(location.name),
 										}),
 									],
@@ -361,6 +375,14 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 
 	set showDescription(val) {
 		this.toggleAttribute('showdescription', val);
+	}
+
+	get source() {
+		return getString(this, 'source');
+	}
+
+	set source(val) {
+		setString(this, 'source', val);
 	}
 
 	get theme() {
