@@ -1,5 +1,5 @@
 import { getJSON } from '@shgysk8zer0/kazoo/http.js';
-import { createElement, createSlot } from '@shgysk8zer0/kazoo/elements.js';
+import { createElement, createImage, createSlot } from '@shgysk8zer0/kazoo/elements.js';
 import { light, dark } from '@shgysk8zer0/jss/palette/gnome.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
 import { setUTMParams } from '@shgysk8zer0/kazoo/utility.js';
@@ -49,9 +49,25 @@ const STYLES = `
 		display: none;
 	}
 
+	:host(:not([showimage])) .event-image {
+		display: none;
+	}
+
 	.heading {
 		font-size: 1.8em;
 		font-weight: bolder;
+	}
+
+	.event-image {
+		display: block;
+		border-radius: 8px;
+		width: 640px;
+		max-width: 95%;
+		height: auto;
+		margin: 2em auto;
+		aspect-ratio: 4 / 3;
+		object-postion: center;
+		obejct-fit: contain;
 	}
 
 	.center {
@@ -201,7 +217,7 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 		const children = events
 			.map(({ startDate, ...event }) => ({ ...event, startDate: new Date(startDate) }))
 			.filter(({ startDate }) => startDate.getTime() > now)
-			.map(({ name, description, startDate, performer, location, url }) => {
+			.map(({ name, description, startDate, performer, location, url, image }) => {
 				const start = new Date(startDate);
 				const mayorSlug = slugify(performer.name);
 				const event = createElement('div', {
@@ -255,6 +271,15 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 									]
 								}),
 							],
+						}),
+						createImage(image, {
+							alt: `${name} image`,
+							part: ['image'],
+							classList: ['event-image'],
+							// width: 640,
+							// height: 480,
+							loading: 'lazy',
+							itemprop: 'image',
 						}),
 						createElement('div', {
 							children: [
@@ -375,6 +400,14 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 
 	set showDescription(val) {
 		this.toggleAttribute('showdescription', val);
+	}
+
+	get showImage() {
+		return this.hasAttribute('showimage');
+	}
+
+	set showImage(val) {
+		this.toggleAttribute('showimage', val);
 	}
 
 	get source() {

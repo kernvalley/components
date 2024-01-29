@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.4] - 2024-01-29
+
+### Added
+- Add option/attribute for `<wfd-mayor-events showimages>`
+
 ## [v1.1.3] - 2024-01-21
 
 ### Added
