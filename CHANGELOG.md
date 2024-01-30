@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.5] - 2024-01-30
+
+### Fixed
+- Correctly scale images in `<wfd-mayor-events>`
+
 ## [v1.1.4] - 2024-01-29
 
 ### Added

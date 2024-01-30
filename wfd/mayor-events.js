@@ -67,7 +67,7 @@ const STYLES = `
 		margin: 2em auto;
 		aspect-ratio: 4 / 3;
 		object-postion: center;
-		obejct-fit: contain;
+		object-fit: cover;
 	}
 
 	.center {
@@ -276,7 +276,7 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 							alt: `${name} image`,
 							part: ['image'],
 							classList: ['event-image'],
-							// width: 640,
+							width: 640,
 							// height: 480,
 							loading: 'lazy',
 							itemprop: 'image',
