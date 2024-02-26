@@ -13,7 +13,7 @@ A collection of web components / custom elements from KernValley.US
 
 [![npm](https://img.shields.io/npm/v/@kernvalley/components)](https://www.npmjs.com/package/@kernvalley/components)
 ![node-current](https://img.shields.io/node/v/@kernvalley/components)
-![npm bundle size gzipped](https://img.shields.io/bundlephobia/minzip/@kernvalley/components)
+![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40kernvalley%2Fcomponents)
 [![npm](https://img.shields.io/npm/dw/@kernvalley/components?logo=npm)](https://www.npmjs.com/package/@kernvalley/components)
 
 [![GitHub followers](https://img.shields.io/github/followers/kernvalley.svg?style=social)](https://github.com/kernvalley)
