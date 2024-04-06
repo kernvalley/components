@@ -1,18 +1,8 @@
-import '@shgysk8zer0/polyfills/all.js';
-import '@shgysk8zer0/kazoo/harden.js';
 import { createElement } from '@shgysk8zer0/kazoo/elements.js';
 import { konami } from '@shgysk8zer0/konami';
 import { getJSON } from '@shgysk8zer0/kazoo/http.js';
 import { description as setDescription } from '@shgysk8zer0/kazoo/meta.js';
 import './components.js';
-
-trustedTypes.createPolicy('default', {
-	createHTML: input => {
-		const el = document.createElement('div');
-		el.setHTML(input);
-		return el.innerHTML;
-	},
-});
 
 getJSON(import.meta.resolve('../../package.json')).then(({ name, version, description }) => {
 	document.title = `${name} v${version}`;
