@@ -1,7 +1,6 @@
 import { registerCustomElement } from '@shgysk8zer0/kazoo/custom-elements.js';
 import { createElement, createImage, createSlot } from '@shgysk8zer0/kazoo/elements.js';
 import { getString, setString, getURL, setURL, getInt, setInt, getBool, setBool } from '@shgysk8zer0/kazoo/attrs.js';
-import { loadStylesheet } from '@shgysk8zer0/kazoo/loader.js';
 import { isObject, setUTMParams } from '@shgysk8zer0/kazoo/utility.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
 import { save, open } from '@shgysk8zer0/kazoo/filesystem.js';
@@ -9,6 +8,7 @@ import {
 	createCallStartIcon, createMailIcon, createMarkLocationIcon,
 	createLinkExternalIcon, createInfoIcon,
 } from '@shgysk8zer0/kazoo/icons.js';
+import styles from './ad.css.js';
 
 const protectedData = new WeakMap();
 const ITEMTYPE = new URL('/WPAdBlock', 'https://schema.org').href;
@@ -265,6 +265,7 @@ class HTMLKRVAdElement extends HTMLElement {
 			this.append(image);
 		}
 
+		shadow.adoptedStyleSheets = [styles];
 		shadow.append(container);
 
 		const publisherEl = this.querySelector('[itemprop="publisher"]');
@@ -366,10 +367,9 @@ class HTMLKRVAdElement extends HTMLElement {
 
 	async connectedCallback() {
 		this.dispatchEvent(new Event('connected'));
-		const { shadow, internals } = protectedData.get(this);
+		const { internals } = protectedData.get(this);
 		await whenIntersecting(this);
 		internals.states.add('--seen');
-		await loadStylesheet(import.meta.resolve('./ad.css'), { parent: shadow });
 		setTimeout(() => this.hidden = false, 1);
 		internals.states.delete('--loading');
 

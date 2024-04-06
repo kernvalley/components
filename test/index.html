@@ -6,34 +6,62 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy" content="
 			default-src 'self';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ 'nonce-2922730b-7e42-4420-b730-1c98df161582';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'nonce-2922730b-7e42-4420-b730-1c98df161582';
 			style-src 'self' https://cdn.kernvalley.us/css/ unpkg.com/ blob:;
 			font-src 'self' https://cdn.kernvalley.us/fonts/;
 			connect-src 'self' unpkg.com/@shgysk8zer0/ *.kernvalley.us https://whiskeyflatdays.com/events.json https://whiskeyflatdays.com/mayors/events.json https://baconipsum.com/api/ https://api.github.com/ https://api.openweathermap.org/data/2.5/;
 			child-src  https://www.youtube-nocookie.com/embed/;
 			img-src * data: blob;
-			trusted-types default empty#html empty#script sanitizer-raw#html purify-raw#html purify#html github#gist dompurify share-to-buttons#html weather-current#html weather-forecast#html krv-events#html wfd-events#html codepen#script-url module#script-url purify-raw#html purify#html pwa-install html-notification#script spotify-player#html spotify#script-url krv-contact#html github-user#html github-repo#html youtube#script-url;
-			require-trusted-types-for 'self';
+			trusted-types default aegis-sanitizer#html github#gist dompurify codepen#script-url module#script-url pwa-install html-notification#script spotify#script-url youtube#script-url;
+			require-trusted-types-for 'script';
 		" />
 		<base href="/test/" />
 		<title>@KernValley/components</title>
 		<script type="importmap" nonce="2922730b-7e42-4420-b730-1c98df161582">
 			{
-				"imports":{
-					"@shgysk8zer0/consts/": "https://unpkg.com/@shgysk8zer0/consts@1.0.8/",
-					"@shgysk8zer0/kazoo/": "https://unpkg.com/@shgysk8zer0/kazoo@0.3.1/",
-					"@shgysk8zer0/components/": "https://unpkg.com/@shgysk8zer0/components@0.1.6/",
+				"imports": {
+					"@kernvalley/components/": "../",
+					"@shgysk8zer0/kazoo/": "https://unpkg.com/@shgysk8zer0/kazoo@1.0.3/",
 					"@shgysk8zer0/konami": "https://unpkg.com/@shgysk8zer0/konami@1.1.1/konami.js",
-					"@shgysk8zer0/konami/": "https://unpkg.com/@shgysk8zer0/konami@1.1.1/",
-					"@shgysk8zer0/jss/": "https://unpkg.com/@shgysk8zer0/jss@1.0.1/",
+					"@shgysk8zer0/polyfills": "https://unpkg.com/@shgysk8zer0/polyfills@0.3.9/all.min.js",
+					"@shgysk8zer0/polyfills/": "https://unpkg.com/@shgysk8zer0/polyfills@0.3.9/",
+					"@shgysk8zer0/jswaggersheets": "https://unpkg.com/@shgysk8zer0/jswaggersheets@1.1.0/swagger.js",
 					"@shgysk8zer0/jswaggersheets/": "https://unpkg.com/@shgysk8zer0/jswaggersheets@1.1.0/",
-					"@shgysk8zer0/polyfills": "https://unpkg.com/@shgysk8zer0/polyfills@0.3.0/all.min.js",
-					"@shgysk8zer0/polyfills/": "https://unpkg.com/@shgysk8zer0/polyfills@0.3.0/",
-					"leaflet": "https://unpkg.com/leaflet@1.9.4/",
-					"@kernvalley/components/": "../"
-				}
+					"@shgysk8zer0/jss/": "https://unpkg.com/@shgysk8zer0/jss@1.0.1/",
+					"@shgysk8zer0/consts/": "https://unpkg.com/@shgysk8zer0/consts@1.0.8/",
+					"@shgysk8zer0/http/": "https://unpkg.com/@shgysk8zer0/http@1.0.5/",
+					"@shgysk8zer0/http-status": "https://unpkg.com/@shgysk8zer0/http-status@1.1.1/http-status.js",
+					"@aegisjsproject/trusted-types": "https://unpkg.com/@aegisjsproject/trusted-types@1.0.1/bundle.min.js",
+					"@aegisjsproject/trusted-types/": "https://unpkg.com/@aegisjsproject/trusted-types@1.0.1/",
+					"@aegisjsproject/parsers": "https://unpkg.com/@aegisjsproject/parsers@0.0.7/bundle.min.js",
+					"@aegisjsproject/parsers/": "https://unpkg.com/@aegisjsproject/parsers@0.0.7/",
+					"@aegisjsproject/sanitizer": "https://unpkg.com/@aegisjsproject/sanitizer@0.0.10/sanitizer.js",
+					"@aegisjsproject/sanitizer/": "https://unpkg.com/@aegisjsproject/sanitizer@0.0.10/",
+					"@aegisjsproject/core": "https://unpkg.com/@aegisjsproject/core@0.2.8/core.js",
+					"@aegisjsproject/core/": "https://unpkg.com/@aegisjsproject/core@0.2.8/",
+					"@aegisjsproject/styles": "https://unpkg.com/@aegisjsproject/styles@0.1.1/styles.js",
+					"@aegisjsproject/styles/": "https://unpkg.com/@aegisjsproject/styles@0.1.1/",
+					"@aegisjsproject/component": "https://unpkg.com/@aegisjsproject/component@0.1.2/component.js",
+					"@aegisjsproject/component/": "https://unpkg.com/@aegisjsproject/component@0.1.2/",
+					"@aegisjsproject/markdown": "https://unpkg.com/@aegisjsproject/markdown@0.1.2/markdown.js",
+					"@aegisjsproject/markdown/": "https://unpkg.com/@aegisjsproject/markdown@0.1.2/",
+					"@aegisjsproject/aegis-md": "https://unpkg.com/@aegisjsproject/aegis-md@0.0.2/aegis-md.js",
+					"@aegisjsproject/aegis-md/": "https://unpkg.com/@aegisjsproject/aegis-md@0.0.2/",
+					"@shgysk8zer0/components/": "https://unpkg.com/@shgysk8zer0/components@0.2.1/",
+					"@webcomponents/custom-elements": "https://unpkg.com/@webcomponents/custom-elements@1.6.0/custom-elements.min.js",
+					"leaflet": "https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js",
+					"urlpattern-polyfill": "https://unpkg.com/urlpattern-polyfill@10.0.0/index.js",
+					"highlight.js": "https://unpkg.com/@highlightjs/cdn-assets@11.9.0/es/core.min.js",
+					"highlight.js/": "https://unpkg.com/@highlightjs/cdn-assets@11.9.0/es/",
+					"@highlightjs/cdn-assets": "https://unpkg.com/@highlightjs/cdn-assets@11.9.0/es/core.min.js",
+					"@highlightjs/cdn-assets/": "https://unpkg.com/@highlightjs/cdn-assets@11.9.0/es/",
+					"marked": "https://unpkg.com/marked@12.0.1/lib/marked.esm.js",
+					"marked-highlight": "https://unpkg.com/marked-highlight@2.1.1/src/index.js",
+					"firebase/": "https://www.gstatic.com/firebasejs/9.23.0/"
+					}
 			}
 		</script>
+		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-r49PM7GnfWMI6kJ3cmIwGfqnv2c7W1hd13AmlDZljUrBAzHoSBC/cgs8Unm/pRjF" src="https://unpkg.com/@aegisjsproject/core@0.2.9/polyfill-with-policy.min.js" fetchpriority="high"></script>
 		<script type="module" src="./js/index.js" referrerpolicy="no-referrer"></script>
 		<script type="module" src="./js/components.js" referrerpolicy="no-referrer"></script>
 		<link rel="stylesheet" href="./css/index.css" referrerpolicy="no-referrer" />
@@ -47,6 +75,7 @@
 			<button is="app-list">Apps</button>
 			<share-to-button target="twitter"></share-to-button>
 			<share-to-button target="linkedin"></share-to-button>
+			<button type="button" popovertarget="contact-form" popovertargetaction="show">Show Contact Form</button>
 		</nav>
 		<main id="main">
 			<wfd-events></wfd-events>
@@ -65,6 +94,10 @@
 			</krv-ad>
 		</aside>
 		<footer id="footer"></footer>
+		<div id="contact-form" popover="auto">
+			<krv-contact></krv-contact>
+			<button type="button" popovertarget="contact-form" popovertargetaction="hide">Close</button>
+		</div>
 		<share-button class="fixed bottom right btn btn-primary" url="https://npmjs.org/package/@shgysk8zer0/components" sharetitle="@shgysk8zer0/components" text="A collection of custom elements / web components">Share</share-button>
 	</body>
 </html>

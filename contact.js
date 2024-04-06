@@ -1,16 +1,13 @@
 import { registerCustomElement } from '@shgysk8zer0/kazoo/custom-elements.js';
 import { on } from '@shgysk8zer0/kazoo/dom.js';
-import { loadStylesheet } from '@shgysk8zer0/kazoo/loader.js';
-import { getHTML } from '@shgysk8zer0/kazoo/http.js';
-import { callOnce } from '@shgysk8zer0/kazoo/utility.js';
 import { send } from '@shgysk8zer0/kazoo/slack.js';
-import { createPolicy } from '@shgysk8zer0/kazoo/trust.js';
+import { createDeprecatedPolicy } from '@shgysk8zer0/components/trust.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
-
+import { formStyles } from './styles/forms.js';
+import template from './contact.html.js';
+import styles from './contact.css.js';
 const ENDPOINT = 'https://contact.kernvalley.us/api/slack';
-const policy = createPolicy('krv-contact#html', { createHTML: input => input });
-const getTemplate = callOnce(() => getHTML(import.meta.url('./contact.html'), { policy }));
-export const trustPolicies = [policy.name];
+createDeprecatedPolicy('krv-contact#html');
 
 const symbols = {
 	shadow: Symbol('shadow'),
@@ -31,11 +28,8 @@ registerCustomElement('krv-contact', class HTMLKRVContactElement extends HTMLEle
 		this.addEventListener('error', console.error);
 
 		whenIntersecting(this).then(async () => {
-			const [tmp] = await Promise.all([
-				getTemplate().then(tmp => tmp.cloneNode(true)),
-				loadStylesheet(import.meta.resolve('./contact.css'), { parent: shadow }),
-				loadStylesheet('https://unpkg.com/@shgysk8zer0/core-css@2.4.3/forms.css', { parent: shadow }),
-			]);
+			shadow.adoptedStyleSheets = [formStyles, styles];
+			const tmp = template.cloneNode(true);
 
 			on(tmp.querySelector('form'), {
 				reset: () => this.dispatchEvent(new Event('reset')),

@@ -1,17 +1,16 @@
 import { text, attr, when } from '@shgysk8zer0/kazoo/dom.js';
-import { getHTML } from '@shgysk8zer0/kazoo/http.js';
 import { getEvents as getAllEvents } from '@shgysk8zer0/kazoo/krv/events.js';
 import { registerCustomElement } from '@shgysk8zer0/kazoo/custom-elements.js';
-import { loadStylesheet } from '@shgysk8zer0/kazoo/loader.js';
 import { hasGa, send } from '@shgysk8zer0/kazoo/google-analytics.js';
 import { callOnce, setUTMParams } from '@shgysk8zer0/kazoo/utility.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
 import { getString, setString, getInt, setInt } from '@shgysk8zer0/kazoo/attrs.js';
-import { createPolicy } from '@shgysk8zer0/kazoo/trust.js';
+import { createDeprecatedPolicy } from '@shgysk8zer0/components/trust.js';
+import template from './events.html.js';
+import styles from './events.css.js';
 
-const policy = createPolicy('krv-events#html', { createHTML: input => input });
-export const trustPolicies = [policy.name];
-const getTemplate = callOnce(() => getHTML(import.meta.resolve('./events.html'), { policy }));
+createDeprecatedPolicy('krv-events#html');
+
 const getEvents = callOnce(() => getAllEvents());
 const protectedData = new WeakMap();
 
@@ -24,10 +23,10 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 		super();
 		const parent = this.attachShadow({ mode: 'closed' });
 		const internals = this.attachInternals();
+		parent.adoptedStyleSheets = [styles];
 
 		Promise.all([
-			getTemplate().then(frag => frag.cloneNode(true)),
-			loadStylesheet(import.meta.resolve('./events.css'), { parent }),
+			template.cloneNode(true),
 			this.whenConnected,
 		]).then(([frag]) => {
 			internals.role = 'document';

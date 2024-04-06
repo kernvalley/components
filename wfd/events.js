@@ -4,23 +4,22 @@ import { createElement} from '@shgysk8zer0/kazoo/elements.js';
 import { registerCustomElement } from '@shgysk8zer0/kazoo/custom-elements.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
 import { text, attr } from '@shgysk8zer0/kazoo/dom.js';
-import { getHTML } from '@shgysk8zer0/kazoo/http.js';
 import { setUTMParams, callOnce } from '@shgysk8zer0/kazoo/utility.js';
-import { createPolicy } from '@shgysk8zer0/kazoo/trust.js';
+import { createDeprecatedPolicy } from '@shgysk8zer0/components/trust.js';
 import { getString, setString, getBool, setBool } from '@shgysk8zer0/kazoo/attrs.js';
 import { light, dark } from '@shgysk8zer0/jss/palette/gnome.js';
+import template from './events.html.js';
 // import {
 // 	createCalendarIcon, createLinkExternalIcon, createMarkLocationIcon,
 // } from '@shgysk8zer0/kazoo/icons.js';
 
 
 const protectedData = new WeakMap();
-const policy = createPolicy('wfd-events#html', { createHTML: input => input });
-export const trustPolicies = [policy.name];
+createDeprecatedPolicy('wfd-events#html');
 const WFD = 'https://whiskeyflatdays.com/';
 const medium = 'referral';
 const content = 'wfd-events';
-const getTemplate = callOnce(() => getHTML(import.meta.resolve('./events.html'), { policy }));
+const getTemplate = (() => template.cloneNode(true));
 const getEvents = callOnce(() => getAllEvents());
 
 const DATETIME_FORMAT = {
