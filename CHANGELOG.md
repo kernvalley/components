@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.0] - 2024-04-06
+
+### Changed
+- Switch to using AegisJSProject libraries
+- No longer fetch & parse HTML or load styles as `<link rel="stylesheet">`
+
+### Deprecated
+- Deprecate all `*#html` Trusted Type Policies
+- All such `*.html` & `*.css` files are now empty and deprecated
+
 ## [v1.1.5] - 2024-01-30
 
 ### Fixed

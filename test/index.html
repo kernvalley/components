@@ -12,7 +12,7 @@
 			connect-src 'self' unpkg.com/@shgysk8zer0/ *.kernvalley.us https://whiskeyflatdays.com/events.json https://whiskeyflatdays.com/mayors/events.json https://baconipsum.com/api/ https://api.github.com/ https://api.openweathermap.org/data/2.5/;
 			child-src  https://www.youtube-nocookie.com/embed/;
 			img-src * data: blob;
-			trusted-types default aegis-sanitizer#html github#gist dompurify wfd-events#html codepen#script-url module#script-url pwa-install html-notification#script spotify#script-url krv-contact#html youtube#script-url;
+			trusted-types default aegis-sanitizer#html github#gist dompurify codepen#script-url module#script-url pwa-install html-notification#script spotify#script-url youtube#script-url;
 			require-trusted-types-for 'script';
 		" />
 		<base href="/test/" />
@@ -75,6 +75,7 @@
 			<button is="app-list">Apps</button>
 			<share-to-button target="twitter"></share-to-button>
 			<share-to-button target="linkedin"></share-to-button>
+			<button type="button" popovertarget="contact-form" popovertargetaction="show">Show Contact Form</button>
 		</nav>
 		<main id="main">
 			<wfd-events></wfd-events>
@@ -93,6 +94,10 @@
 			</krv-ad>
 		</aside>
 		<footer id="footer"></footer>
+		<div id="contact-form" popover="auto">
+			<krv-contact></krv-contact>
+			<button type="button" popovertarget="contact-form" popovertargetaction="hide">Close</button>
+		</div>
 		<share-button class="fixed bottom right btn btn-primary" url="https://npmjs.org/package/@shgysk8zer0/components" sharetitle="@shgysk8zer0/components" text="A collection of custom elements / web components">Share</share-button>
 	</body>
 </html>
