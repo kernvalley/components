@@ -1,6 +1,4 @@
-import { html } from '@aegisjsproject/parsers/html.js';
-
-export default html`<div part="event" itemtype="https://schema.org/Event" itemscope="">
+export default `<div part="event" itemtype="https://schema.org/Event" itemscope="">
 	<div>
 		<a href="" target="_blank" itemprop="url" part="link">
 			<!-- Add \`link-external\` icon -->

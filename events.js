@@ -5,11 +5,9 @@ import { hasGa, send } from '@shgysk8zer0/kazoo/google-analytics.js';
 import { callOnce, setUTMParams } from '@shgysk8zer0/kazoo/utility.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
 import { getString, setString, getInt, setInt } from '@shgysk8zer0/kazoo/attrs.js';
-import { createDeprecatedPolicy } from '@shgysk8zer0/components/trust.js';
+import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
 import template from './events.html.js';
 import styles from './events.css.js';
-
-createDeprecatedPolicy('krv-events#html');
 
 const getEvents = callOnce(() => getAllEvents());
 const protectedData = new WeakMap();
@@ -21,27 +19,11 @@ function utm(url, { campaign, content = 'krv-events-el', medium, source, term })
 registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLElement {
 	constructor() {
 		super();
-		const parent = this.attachShadow({ mode: 'closed' });
+		const shadow = this.attachShadow({ mode: 'closed' });
 		const internals = this.attachInternals();
-		parent.adoptedStyleSheets = [styles];
-
-		Promise.all([
-			template.cloneNode(true),
-			this.whenConnected,
-		]).then(([frag]) => {
-			internals.role = 'document';
-			internals.ariaLabel = 'Kern Valley Events Calendar';
-			const link = frag.querySelector('.app-link');
-			link.target = this.target;
-
-			if (this.hasAttribute('source')) {
-				link.href = utm(link.href, this);
-			}
-
-			parent.append(frag);
-			protectedData.set(this, { shadow: parent, internals });
-			this.dispatchEvent(new Event('ready'));
-		});
+		protectedData.set(this, { shadow, internals });
+		internals.role = 'document';
+		internals.ariaLabel = 'Kern Valley Events Calendar';
 	}
 
 	get ready() {
@@ -66,6 +48,22 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 		if (this.loading === 'lazy') {
 			await whenIntersecting(this);
 		}
+
+		const { shadow } = protectedData.get(this);
+
+		shadow.adoptedStyleSheets = await Promise.all([
+			new CSSStyleSheet().replace(styles),
+		]);
+
+		shadow.setHTML(template, sanitizer);
+		const link = shadow.querySelector('.app-link');
+		link.target = this.target;
+
+		if (this.hasAttribute('source')) {
+			link.href = utm(link.href, this);
+		}
+
+		this.dispatchEvent(new Event('ready'));
 
 		this.render();
 	}

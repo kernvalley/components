@@ -1,7 +1,6 @@
-import { css } from '@aegisjsproject/parsers/css.js';
 import { red, green, gray } from '@aegisjsproject/styles/palette/bootstrap.js';
 
-export default css`:host {
+export default `:host {
 	display: block;
 	color-scheme: light dark;
 }
