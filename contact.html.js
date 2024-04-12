@@ -1,6 +1,4 @@
-import { html } from '@aegisjsproject/parsers/html.js';
-
-export default html`<form part="form">
+export default `<form part="form">
 	<fieldset class="no-border">
 		<legend part="legend">
 			<slot name="legend">Contact KernValley.US</slot>

@@ -1,6 +1,4 @@
-import { html } from '@aegisjsproject/parsers/html.js';
-
-export default html`<a class="app-link" href="https://events.kernvalley.us/" target="_parent" rel="noopener noreferrer external">
+export default `<a class="app-link" href="https://events.kernvalley.us/" target="_parent" rel="noopener noreferrer external">
 	<h2 class="center" part="title">
 		<slot name="title">KRV Events Calendar</slot>
 		<svg width="12" height="16" fill="currentColor" viewBox="0 0 12 16" part="icon link-icon">

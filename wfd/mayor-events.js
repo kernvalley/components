@@ -163,6 +163,15 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 		this.#internals = this.attachInternals();
 		this.#internals.role = 'document';
 
+	}
+
+	attributeChangedCallback() {
+		if (this.isConnected) {
+			this.render();
+		}
+	}
+
+	async connectedCallback() {
 		this.#shadow.append(
 			createElement('header', {
 				part: ['header', 'text'],
@@ -186,19 +195,10 @@ customElements.define('wfd-mayor-events', class HTMLWFDMayorEvents extends HTMLE
 			}),
 		);
 
-		Promise.all([
+		this.#shadow.adoptedStyleSheets = await Promise.all([
 			new CSSStyleSheet().replace(STYLES),
 			new CSSStyleSheet({ media: '(prefers-color-scheme: dark)' }).replace(DARK_STYLES),
-		]).then(sheets => this.#shadow.adoptedStyleSheets = sheets);
-	}
-
-	attributeChangedCallback() {
-		if (this.isConnected) {
-			this.render();
-		}
-	}
-
-	connectedCallback() {
+		]);
 		this.render();
 	}
 

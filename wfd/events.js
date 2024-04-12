@@ -8,6 +8,7 @@ import { setUTMParams, callOnce } from '@shgysk8zer0/kazoo/utility.js';
 import { createDeprecatedPolicy } from '@shgysk8zer0/components/trust.js';
 import { getString, setString, getBool, setBool } from '@shgysk8zer0/kazoo/attrs.js';
 import { light, dark } from '@shgysk8zer0/jss/palette/gnome.js';
+import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
 import template from './events.html.js';
 // import {
 // 	createCalendarIcon, createLinkExternalIcon, createMarkLocationIcon,
@@ -19,7 +20,6 @@ createDeprecatedPolicy('wfd-events#html');
 const WFD = 'https://whiskeyflatdays.com/';
 const medium = 'referral';
 const content = 'wfd-events';
-const getTemplate = (() => template.cloneNode(true));
 const getEvents = callOnce(() => getAllEvents());
 
 const DATETIME_FORMAT = {
@@ -146,11 +146,20 @@ registerCustomElement('wfd-events', class HTMLWFDEventsElement extends HTMLEleme
 	constructor() {
 		super();
 		const shadow = this.attachShadow({ mode: 'closed' });
+		protectedData.set(this, { shadow });
+	}
 
-		Promise.all([
+	async connectedCallback() {
+		await whenIntersecting(this);
+		const { shadow } = protectedData.get(this);
+
+		shadow.adoptedStyleSheets = await Promise.all([
 			new CSSStyleSheet().replace(STYLES),
 			new CSSStyleSheet({ media: '(prefers-color-scheme: dark)' }).replace(DARK_STYLES),
-		]).then(sheets => shadow.adoptedStyleSheets = sheets);
+		]);
+
+		const tmp = document.createDocumentFragment();
+		tmp.setHTML(template, sanitizer);
 
 		shadow.append(
 			createElement('a', {
@@ -168,16 +177,7 @@ registerCustomElement('wfd-events', class HTMLWFDEventsElement extends HTMLEleme
 			createElement('div', { part: ['list'] }),
 		);
 
-		protectedData.set(this, { shadow });
-	}
-
-	async connectedCallback() {
-		await whenIntersecting(this);
-		const { shadow } = protectedData.get(this);
-		const [events, tmp] = await Promise.all([
-			getEvents(),
-			getTemplate(),
-		]);
+		const events = await getEvents();
 
 		const source = this.source;
 		const utm = { source, medium, content };

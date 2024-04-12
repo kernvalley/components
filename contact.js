@@ -1,13 +1,12 @@
 import { registerCustomElement } from '@shgysk8zer0/kazoo/custom-elements.js';
 import { on } from '@shgysk8zer0/kazoo/dom.js';
 import { send } from '@shgysk8zer0/kazoo/slack.js';
-import { createDeprecatedPolicy } from '@shgysk8zer0/components/trust.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
+import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
 import { formStyles } from './styles/forms.js';
 import template from './contact.html.js';
 import styles from './contact.css.js';
 const ENDPOINT = 'https://contact.kernvalley.us/api/slack';
-createDeprecatedPolicy('krv-contact#html');
 
 const symbols = {
 	shadow: Symbol('shadow'),
@@ -27,62 +26,66 @@ registerCustomElement('krv-contact', class HTMLKRVContactElement extends HTMLEle
 
 		this.addEventListener('error', console.error);
 
-		whenIntersecting(this).then(async () => {
-			shadow.adoptedStyleSheets = [formStyles, styles];
-			const tmp = template.cloneNode(true);
-
-			on(tmp.querySelector('form'), {
-				reset: () => this.dispatchEvent(new Event('reset')),
-				submit: async event => {
-					event.preventDefault();
-					const target = event.target;
-					const data = new FormData(target);
-
-					try {
-						const resp = await send(ENDPOINT, {
-							name: data.get('name'),
-							email: data.get('email'),
-							phone: data.get('phone'),
-							url: data.get('url'),
-							subject: data.get('subject'),
-							body: data.get('body'),
-						});
-
-						if (resp.success) {
-							this.dispatchEvent(new Event('sent'));
-							if (this.hasOwnProperty(symbols.internals)) {
-								this[symbols.internals].states.delete('--error');
-								this[symbols.internals].states.add('--sent');
-							}
-							target.reset();
-						} else {
-							throw new Error(`<${resp.url}> [${resp.status} ${resp.statusText}]`);
-						}
-					} catch(error) {
-						if (this.hasOwnProperty(symbols.internals)) {
-							this[symbols.internals].states.delete('--sent');
-							this[symbols.internals].states.add('--error');
-						}
-
-						this.dispatchEvent(new ErrorEvent('error', {
-							error,
-							message: 'Error submitting form',
-						}));
-					}
-				}
-			});
-
-			shadow.append(tmp);
-			this.dispatchEvent(new Event('ready'));
-
-			if (this.hasOwnProperty(symbols.internals)) {
-				this[symbols.internals].states.delete('--loading');
-				this[symbols.internals].states.add('--ready');
-			}
-		});
 	}
 
-	connectedCallback() {
+	async connectedCallback() {
+		await whenIntersecting(this);
+		const shadow = this[symbols.shadow];
+
+		shadow.adoptedStyleSheets = await Promise.all([
+			formStyles,
+			new CSSStyleSheet().replace(styles),
+		]);
+
+		shadow.setHTML(template, sanitizer);
+
+		on(shadow.querySelector('form'), {
+			reset: () => this.dispatchEvent(new Event('reset')),
+			submit: async event => {
+				event.preventDefault();
+				const target = event.target;
+				const data = new FormData(target);
+
+				try {
+					const resp = await send(ENDPOINT, {
+						name: data.get('name'),
+						email: data.get('email'),
+						phone: data.get('phone'),
+						url: data.get('url'),
+						subject: data.get('subject'),
+						body: data.get('body'),
+					});
+
+					if (resp.success) {
+						this.dispatchEvent(new Event('sent'));
+						if (this.hasOwnProperty(symbols.internals)) {
+							this[symbols.internals].states.delete('--error');
+							this[symbols.internals].states.add('--sent');
+						}
+						target.reset();
+					} else {
+						throw new Error(`<${resp.url}> [${resp.status} ${resp.statusText}]`);
+					}
+				} catch(error) {
+					if (this.hasOwnProperty(symbols.internals)) {
+						this[symbols.internals].states.delete('--sent');
+						this[symbols.internals].states.add('--error');
+					}
+
+					this.dispatchEvent(new ErrorEvent('error', {
+						error,
+						message: 'Error submitting form',
+					}));
+				}
+			}
+		});
+
+		this.dispatchEvent(new Event('ready'));
+
+		if (this.hasOwnProperty(symbols.internals)) {
+			this[symbols.internals].states.delete('--loading');
+			this[symbols.internals].states.add('--ready');
+		}
 		this.dispatchEvent(new Event('connected'));
 	}
 
