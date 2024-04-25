@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.3] - 2024-04-25
+
+### Added
+- `<krv-events>` now as an optional `tags` attribute to filter events
+
 ## [v2.0.2] - 2024-04-24
 
 ### Changed
