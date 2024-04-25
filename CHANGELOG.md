@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.2] - 2024-04-24
+
+### Changed
+- Do not show full end date, just time, if end is same day as start
+
+### Fixed
+- Fix icon style / size in `<krv-events>`
+
 ## [v2.0.1] - 2024-04-11
 
 ### Changed
