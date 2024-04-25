@@ -9,6 +9,20 @@ import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
 import template from './events.html.js';
 import styles from './events.css.js';
 
+const dateFormat = {
+	year: 'numeric',
+	month: 'short',
+	day: 'numeric',
+	timeZone: 'America/Los_Angeles',
+	weekday: 'short',
+	hour: 'numeric',
+	minute: '2-digit',
+};
+
+const timeFormat = {
+	timeStyle: 'short',
+};
+
 const getEvents = callOnce(() => getAllEvents());
 const protectedData = new WeakMap();
 
@@ -109,9 +123,11 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 
 				text('.event-name', name, { base });
 				text('.event-description', description, { base });
-				text('.event-start-time', start.toLocaleString(), { base });
+				text('.event-start-time', start.toLocaleString(navigator.language, dateFormat), { base });
 				attr('.event-start-time', { datetime: start.toISOString() }, { base });
-				text('.event-end-time', end.toLocaleString(), { base });
+				text('.event-end-time', end.toLocaleString(navigator.language,
+					start.getDay() === end.getDay() ? timeFormat : dateFormat
+				), { base });
 				attr('.event-end-time', { datetime: end.toISOString() }, { base });
 
 				if (typeof location !== 'undefined') {
