@@ -90,9 +90,13 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 		]);
 
 		const tmp = protectedData.get(this).shadow.getElementById('event-template').content;
-		const { campaign, content, medium, source, term, target } = this;
+		const { campaign, content, medium, source, term, target, tags } = this;
 
-		const events = data.filter(({ endDate }) => endDate > now)
+		const filter = tags.length !== 0
+			? ({ endDate, keywords = [] }) => endDate > now && tags.some(tag => keywords.includes(tag))
+			: ({ endDate }) => endDate > now;
+
+		const events = data.filter(filter)
 			.splice(0, this.count)
 			.map(({ name, url, description, startDate, endDate, location }) => {
 				const base = tmp.cloneNode(true);
@@ -185,6 +189,22 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 
 	get target() {
 		return getString(this, 'target', { fallback: '_self' });
+	}
+
+	get tags() {
+		const tags = getString(this, 'tags');
+
+		return typeof tags === 'string' && tags.length !== 0
+			? tags.split(',').map(tag =>  tag.trim())
+			: [];
+	}
+
+	set tags(val) {
+		if (Array.isArray(val)){
+			setString(this, 'tags', val.join(', '));
+		} else {
+			setString(this, 'tags',  val);
+		}
 	}
 
 	set target(val) {
