@@ -1,14 +1,23 @@
 import { gray } from '@shgysk8zer0/jss/palette/bootstrap.js';
 
+const lightBg = gray[0];
+const darkBg = gray[8];
+const lightColor = gray[8];
+const darkColor = gray[1];
+const lightBorder = gray[2];
+const darkBorder = gray[6];
+const lightHR = gray[3];
+const darkHR = gray[6];
+
 export default `:host {
 	display: block;
 	text-align: initial;
-	background-color: ${gray[0]};
-	color: ${gray[8]};
+	background-color: ${lightBg};
+	color: ${lightColor};
 	line-height: 1.3;
 	border-width: 1px;
 	border-style: solid;
-	border-color: ${gray[2]};
+	border-color: ${lightBorder};
 	border-radius: 6px;
 	max-width: 100%;
 	box-sizing: border-box;
@@ -37,7 +46,7 @@ export default `:host {
 .event:not(:last-of-type) {
 	border-width: 0 0 1px 0;
 	border-style: solid;
-	border-color: ${gray[3]};
+	border-color: ${lightHR};
 	margin-bottom: 1.1em;
 }
 
@@ -104,18 +113,22 @@ export default `:host {
 }
 
 :host([theme="dark"]) {
-	background-color: ${gray[8]};
-	color: #fefefe;
+	background-color: ${darkBg};
+	color: ${darkColor};
+}
+
+:host([theme="dark"]) .event:not(:last-of-type) {
+	border-color: ${darkHR};
 }
 
 @media (prefers-color-scheme: dark) {
 	:host(:not([theme="light"])) {
-		background-color: ${gray[8]};
-		color: #fefefe;
-		border-color: ${gray[6]};
+		background-color: ${darkBg};
+		color: ${darkColor};
+		border-color: ${darkBorder};
 	}
 
-	.event:not(:last-of-type) {
-		border-color: ${gray[6]};
+	:host(:not([theme="light"])) .event:not(:last-of-type) {
+		border-color: ${darkHR};
 	}
 }`;

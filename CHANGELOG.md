@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.5] - 2024-05-01
+
+### Fixed
+- Fixed `<krv-events>` styles in cases of forced theme via the `theme` attribute
+
 ## [v2.0.4] - 2024-05-01
 
 ### Changed

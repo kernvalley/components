@@ -24,24 +24,30 @@ const timeFormat = {
 };
 
 const getEvents = callOnce(() => getAllEvents());
-const protectedData = new WeakMap();
 
 function utm(url, { campaign, content = 'krv-events-el', medium, source, term }) {
 	return setUTMParams(url, { campaign, content, medium, source, term }).href;
 }
 
 registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLElement {
+	#shadow;
+	#internals;
+
 	constructor() {
 		super();
 		const shadow = this.attachShadow({ mode: 'closed' });
 		const internals = this.attachInternals();
-		protectedData.set(this, { shadow, internals });
+		// protectedData.set(this, { shadow, internals });
 		internals.role = 'document';
 		internals.ariaLabel = 'Kern Valley Events Calendar';
+		internals.states.add('--loading');
+		internals.ariaBusy = 'true';
+		this.#shadow =  shadow;
+		this.#internals = internals;
 	}
 
 	get ready() {
-		if (! protectedData.has(this)) {
+		if (! this.#internals.states.has('--ready')) {
 			return when(this, 'ready');
 		} else {
 			return Promise.resolve();
@@ -63,33 +69,36 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 			await whenIntersecting(this);
 		}
 
-		const { shadow } = protectedData.get(this);
-
-		shadow.adoptedStyleSheets = await Promise.all([
+		this.#shadow.adoptedStyleSheets = await Promise.all([
 			new CSSStyleSheet().replace(styles),
 		]);
 
-		shadow.setHTML(template, sanitizer);
-		const link = shadow.querySelector('.app-link');
+		this.#shadow.setHTML(template, sanitizer);
+		const link = this.#shadow.querySelector('.app-link');
 		link.target = this.target;
 
 		if (this.hasAttribute('source')) {
 			link.href = utm(link.href, this);
 		}
 
+		this.#internals.states.add('--ready');
 		this.dispatchEvent(new Event('ready'));
 
 		this.render();
 	}
 
-	async render() {
+	async render({ signal } = {}) {
+		if (signal instanceof AbortSignal && signal.aborted) {
+			throw signal.reason;
+		}
+
 		const now = new Date().toISOString();
 		const [data] = await Promise.all([
-			getEvents(),
+			getEvents({ signal }),
 			this.ready,
 		]);
 
-		const tmp = protectedData.get(this).shadow.getElementById('event-template').content;
+		const tmp = this.#shadow.getElementById('event-template').content;
 		const { campaign, content, medium, source, term, target, tags } = this;
 
 		const filter = tags.length !== 0
@@ -143,7 +152,7 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 			});
 
 		if (events.length !== 0) {
-			protectedData.get(this).shadow.getElementById('events-list').replaceChildren(...events);
+			this.#shadow.getElementById('events-list').replaceChildren(...events);
 		}
 	}
 
@@ -230,7 +239,10 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 	attributeChangedCallback(name/*, oldVal, newVal*/) {
 		switch(name) {
 			case 'count':
-				this.render().catch(console.error);
+			case 'tags':
+				if (this.#internals.states.has('--ready')) {
+					this.render().catch(console.error);
+				}
 				break;
 
 			default:
@@ -239,6 +251,6 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 	}
 
 	static get observedAttributes() {
-		return ['count'];
+		return ['count', 'tags'];
 	}
 });
