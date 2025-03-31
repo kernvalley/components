@@ -37,7 +37,6 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 		super();
 		const shadow = this.attachShadow({ mode: 'closed' });
 		const internals = this.attachInternals();
-		// protectedData.set(this, { shadow, internals });
 		internals.role = 'document';
 		internals.ariaLabel = 'Kern Valley Events Calendar';
 		internals.states.add('--loading');
