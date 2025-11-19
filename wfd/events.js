@@ -1,22 +1,16 @@
 import { getEvents as getAllEvents } from '@shgysk8zer0/kazoo/krv/wfd.js';
-// import { createElement, createImage } from '@shgysk8zer0/kazoo/elements.js';
 import { createElement} from '@shgysk8zer0/kazoo/elements.js';
 import { registerCustomElement } from '@shgysk8zer0/kazoo/custom-elements.js';
 import { whenIntersecting } from '@shgysk8zer0/kazoo/intersect.js';
 import { text, attr } from '@shgysk8zer0/kazoo/dom.js';
 import { setUTMParams, callOnce } from '@shgysk8zer0/kazoo/utility.js';
-import { createDeprecatedPolicy } from '@shgysk8zer0/components/trust.js';
 import { getString, setString, getBool, setBool } from '@shgysk8zer0/kazoo/attrs.js';
 import { light, dark } from '@shgysk8zer0/jss/palette/gnome.js';
 import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
 import template from './events.html.js';
-// import {
-// 	createCalendarIcon, createLinkExternalIcon, createMarkLocationIcon,
-// } from '@shgysk8zer0/kazoo/icons.js';
 
 
 const protectedData = new WeakMap();
-createDeprecatedPolicy('wfd-events#html');
 const WFD = 'https://whiskeyflatdays.com/';
 const medium = 'referral';
 const content = 'wfd-events';
@@ -159,7 +153,7 @@ registerCustomElement('wfd-events', class HTMLWFDEventsElement extends HTMLEleme
 		]);
 
 		const tmp = document.createDocumentFragment();
-		tmp.setHTML(template, sanitizer);
+		tmp.setHTML(template, { sanitizer });
 
 		shadow.append(
 			createElement('a', {
