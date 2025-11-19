@@ -6,7 +6,6 @@ import { text, attr } from '@shgysk8zer0/kazoo/dom.js';
 import { setUTMParams, callOnce } from '@shgysk8zer0/kazoo/utility.js';
 import { getString, setString, getBool, setBool } from '@shgysk8zer0/kazoo/attrs.js';
 import { light, dark } from '@shgysk8zer0/jss/palette/gnome.js';
-import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
 import template from './events.html.js';
 
 
@@ -152,9 +151,6 @@ registerCustomElement('wfd-events', class HTMLWFDEventsElement extends HTMLEleme
 			new CSSStyleSheet({ media: '(prefers-color-scheme: dark)' }).replace(DARK_STYLES),
 		]);
 
-		const tmp = document.createDocumentFragment();
-		tmp.setHTML(template, { sanitizer });
-
 		shadow.append(
 			createElement('a', {
 				href: getWFDLink('', { source: this.source, medium, content }),
@@ -199,7 +195,7 @@ registerCustomElement('wfd-events', class HTMLWFDEventsElement extends HTMLEleme
 		}) => {
 			const start = new Date(startDate);
 			const end = new Date(endDate);
-			const base = tmp.cloneNode(true);
+			const base = template.cloneNode(true);
 
 			attr('[part~="event"]', { itemtype: new URL(type, context) }, { base });
 			attr('[part~="link"]', { href: getWFDLink(url, utm) }, { base });

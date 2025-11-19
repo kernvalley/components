@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.8] - 2025-11-19
+
+### Fixed
+- Fix bug in santizer use when creating templates
+
 ## [v2.0.7] - 2025-11-19
 
 ### Changed
