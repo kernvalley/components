@@ -37,7 +37,7 @@ registerCustomElement('krv-contact', class HTMLKRVContactElement extends HTMLEle
 			new CSSStyleSheet().replace(styles),
 		]);
 
-		shadow.setHTML(template, sanitizer);
+		shadow.setHTML(template, { sanitizer });
 
 		on(shadow.querySelector('form'), {
 			reset: () => this.dispatchEvent(new Event('reset')),

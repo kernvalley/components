@@ -72,7 +72,7 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 			new CSSStyleSheet().replace(styles),
 		]);
 
-		this.#shadow.setHTML(template, sanitizer);
+		this.#shadow.setHTML(template, { sanitizer });
 		const link = this.#shadow.querySelector('.app-link');
 		link.target = this.target;
 
