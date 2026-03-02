@@ -89,6 +89,10 @@ registerCustomElement('krv-contact', class HTMLKRVContactElement extends HTMLEle
 		this.dispatchEvent(new Event('connected'));
 	}
 
+	[Symbol.dispose]() {
+		this.inert = true;
+	}
+
 	get ready() {
 		if (this[symbols.shadow].childElementCount > 2) {
 			return Promise.resolve();
