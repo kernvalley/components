@@ -8,6 +8,9 @@ import { getString, setString, getInt, setInt } from '@shgysk8zer0/kazoo/attrs.j
 import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
 import template from './events.html.js';
 import styles from './events.css.js';
+import { reset } from '@aegisjsproject/styles/reset.js';
+import { componentBase, componentBorder } from '@aegisjsproject/styles/theme.js';
+import { layers } from '@aegisjsproject/styles/layers.js';
 
 const dateFormat = {
 	year: 'numeric',
@@ -69,7 +72,9 @@ registerCustomElement('krv-events', class HTMLKRVEventsElement extends HTMLEleme
 		}
 
 		this.#shadow.adoptedStyleSheets = await Promise.all([
+			layers, reset, componentBase, componentBorder,
 			new CSSStyleSheet().replace(styles),
+
 		]);
 
 		this.#shadow.setHTML(template, { sanitizer });
