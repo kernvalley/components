@@ -2,15 +2,6 @@ import { red, green, gray } from '@aegisjsproject/styles/palette/bootstrap.js';
 
 export default `:host {
 	display: block;
-	color-scheme: light dark;
-}
-
-:host([theme="light"]) {
-	color-scheme: light;
-}
-
-:host([theme="dark"]) {
-	color-scheme: dark;
 }
 
 .no-border {

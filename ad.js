@@ -9,6 +9,9 @@ import {
 	createLinkExternalIcon, createInfoIcon,
 } from '@shgysk8zer0/kazoo/icons.js';
 import styles from './ad.css.js';
+import { reset } from '@aegisjsproject/styles/reset.js';
+import { componentBase, componentBorder } from '@aegisjsproject/styles/theme.js';
+import { layers } from '@aegisjsproject/styles/layers.js';
 
 const protectedData = new WeakMap();
 const ITEMTYPE = new URL('/WPAdBlock', 'https://schema.org').href;
@@ -265,7 +268,7 @@ class HTMLKRVAdElement extends HTMLElement {
 			this.append(image);
 		}
 
-		shadow.adoptedStyleSheets = [styles];
+		shadow.adoptedStyleSheets = [layers, reset, componentBase, componentBorder, styles];
 		shadow.append(container);
 
 		const publisherEl = this.querySelector('[itemprop="publisher"]');

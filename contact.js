@@ -6,6 +6,9 @@ import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
 import { formStyles } from './styles/forms.js';
 import template from './contact.html.js';
 import styles from './contact.css.js';
+import { reset } from '@aegisjsproject/styles/reset.js';
+import { componentBase } from '@aegisjsproject/styles/theme.js';
+import { layers } from '@aegisjsproject/styles/layers.js';
 const ENDPOINT = 'https://contact.kernvalley.us/api/slack';
 
 const symbols = {
@@ -33,7 +36,7 @@ registerCustomElement('krv-contact', class HTMLKRVContactElement extends HTMLEle
 		const shadow = this[symbols.shadow];
 
 		shadow.adoptedStyleSheets = await Promise.all([
-			formStyles,
+			layers, reset, componentBase, formStyles,
 			new CSSStyleSheet().replace(styles),
 		]);
 

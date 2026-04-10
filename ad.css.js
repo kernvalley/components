@@ -2,16 +2,6 @@ import { css } from '@aegisjsproject/parsers/css.js';
 
 export default css`:host {
 	display: inline-block;
-	border: none;
-	color-scheme: light dark;
-}
-
-:host([theme="light"]) {
-	color-scheme: light;
-}
-
-:host([theme="dark"]) {
-	color-scheme: dark;
 }
 
 :host([url]) {
@@ -55,11 +45,6 @@ export default css`:host {
 	max-width: 100%;
 	max-height: 100%;
 	padding: 8px;
-	background-color: var(--ad-background, #fafafa);
-	color: var(--ad-color, #242424);
-	border-width: var(--ad-border-width, 1px);
-	border-style: solid;
-	border-color: var(--ad-border, #dadada);
 	border-radius: 6px;
 	contain: strict;
 	content-visibility: auto;
@@ -135,18 +120,6 @@ export default css`:host {
 		grid-template-columns: 1fr 1fr;
 		column-gap: 12px;
 	}
-}
-
-:host([theme="dark"]) #container {
-	background-color: var(--ad-background, #212121);
-	color: var(--ad-color, #fefefe);
-	border-color: var(--ad-border, #cacaca);
-}
-
-:host([theme="inherit"]) #container {
-	background-color: var(--ad-background, inherit);
-	color: var(--ad-color, inherit);
-	border-color: var(--ad-border, inherit);
 }
 
 #label {
@@ -264,17 +237,4 @@ slot[name="image"] > svg {
 :host([url][theme="dark"]) #call-to-action,
 :host([theme="dark"]) #branding {
 	color: var(--ad-link-color, #91B4F4);
-}
-
-@media (prefers-color-scheme: dark) {
-	:host(:not([theme="light"])) #container {
-		background-color: var(--ad-background, #212121);
-		color: var(--ad-color, #fefefe);
-		border-color: var(--ad-border, #cacaca);
-	}
-
-	:host([url]:not([theme="light"])) #call-to-action,
-	:host(:not([theme="light"])) #branding {
-		color: var(--ad-link-color, #91B4F4);
-	}
 }`;

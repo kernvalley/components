@@ -25,7 +25,6 @@ const STYLES = `
 		padding: 0.6em;
 		line-height: 1.5;
 		font-family: system-ui;
-		color-scheme: light dark;
 		overflow: auto;
 		background-color: ${light[0]};
 		color: ${dark[3]};

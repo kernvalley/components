@@ -35,7 +35,6 @@ const STYLES = `
 		height: 350px;
 		padding: 4px;
 		contain: strict;
-		color-scheme: light dark;
 		background-color: ${light[0]};
 		color: ${dark[3]};
 		border-radius: 7px;

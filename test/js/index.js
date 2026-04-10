@@ -3,6 +3,11 @@ import { konami } from '@shgysk8zer0/konami';
 import { getJSON } from '@shgysk8zer0/kazoo/http.js';
 import { description as setDescription } from '@shgysk8zer0/kazoo/meta.js';
 import './components.js';
+import { layers } from '@aegisjsproject/styles/layers.js';
+import { reset } from '@aegisjsproject/styles/reset.js';
+import { properties } from '@aegisjsproject/styles/properties.js';
+
+document.adoptedStyleSheets = [layers, properties, reset];
 
 getJSON(import.meta.resolve('../../package.json')).then(({ name, version, description }) => {
 	document.title = `${name} v${version}`;
