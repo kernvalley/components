@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.13] - 2026-10-08
+
+### Fixed
+- Allow fetching from unpkg in npm publishing workflow
+
 ## [v2.0.12] - 2026-10-08
 
 ### Fixed

@@ -29,6 +29,7 @@ jobs:
             objects.githubusercontent.com:443
             tuf-repo-cdn.sigstore.dev:443
             nodejs.org:443
+            unpkg.com:443
 
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
