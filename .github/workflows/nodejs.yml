@@ -1,5 +1,7 @@
 ---
 name: Node CI
+permissions:
+  contents: read
 on:
   push:
     branches:
@@ -11,15 +13,32 @@ on:
       - release/*
 jobs:
   build:
+    permissions:
+      contents: read
     name: Node CI
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v7
-    - uses: actions/setup-node@v7
+    - name: Harden the runner (Block disallowed outbound calls)
+      uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+      with:
+        egress-policy: audit
+        allowed-endpoints: >
+          api.github.com:443
+          github.com:443
+          uploads.github.com:443
+          unpkg.com:443
+          fonts.googleapis.com:443
+          registry.npmjs.org:443
+          release-assets.githubusercontent.com:443
+          168.63.129.16:80
+
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        submodules: true
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version-file: '.nvmrc'
-        # `cache: npm` seems to require a `package-lock.json` file
-        # cache: npm
-    - run: npm i
+        cache: npm
+    - run: npm ci --no-audit --no-fund --strict-allow-scripts
     - run: npm run build --if-present
     - run: npm test
