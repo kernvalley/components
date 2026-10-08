@@ -2,7 +2,7 @@ export default `<div part="container">
 	<a class="app-link" href="https://events.kernvalley.us/" target="_parent" rel="noopener noreferrer external">
 		<h2 class="center" part="title" class="title">
 			<slot name="title">KRV Events Calendar</slot>
-			<svg width="12" height="16" fill="currentColor" viewBox="0 0 12 16" class="icon" part="icon link-icon">
+			<svg width="12" height="16" fill="currentColor" viewBox="0 0 12 16" class="icon" part="icon link-icon" role="presentation" aria-hidden="">
 				<path fill-rule="evenodd" d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"/>
 			</svg>
 		</h2>

@@ -1,6 +1,6 @@
 {
   "name": "@kernvalley/components",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "A collection of web components / custom elements from KernValley.US",
   "keywords": [
     "kern valley",
@@ -68,5 +68,8 @@
     "@shgysk8zer0/rollup-import": "^2.0.3",
     "htmlhint": "^1.9.2",
     "http-server": "^14.1.1"
+  },
+  "allowScripts": {
+    "fsevents@2.3.2": true
   }
 }

@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.11] - 2026-10-08
+
+### Added
+Security hardening
+
+### Changed
+- Update to node 26
+
+### Fixed
+- Set `aria-hidden` on SVG icon in `<krv-events>
+
 ## [v2.0.10] - 2026-04-10
 
 ### Changed
