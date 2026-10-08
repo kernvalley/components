@@ -16,7 +16,7 @@ Security hardening
 - Update to node 26
 
 ### Fixed
-- Set `aria-hidden` on SVG icon in `<krv-events>
+- Set `aria-hidden` on SVG icon in `<krv-events>`
 
 ## [v2.0.10] - 2026-04-10
 
